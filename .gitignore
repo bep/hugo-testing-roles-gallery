@@ -1,4 +1,8 @@
-public/
-node_modules/
+.DS_Store
 .hugo_build.lock
+.impeccable.md
+**/.DS_Store
 hugo_stats.json
+node_modules/
+public/
+resources/_gen

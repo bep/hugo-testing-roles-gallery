@@ -1,8 +1,15 @@
 {{ define "main" }}
-<h1>{{ .Title }}</h1>
-<p class="muted">Basic page structure for testing.</p>
-<section class="card">
-	<h2>Content Block</h2>
-	<p>Replace this with real content.</p>
-</section>
+<div class="gallery-header">
+	<h1>{{ .Title }}</h1>
+	{{ $images := .Resources.ByType "image" }}
+	<p class="photo-count">{{ len $images }} photographs</p>
+</div>
+<div class="gallery">
+	{{ range $images }}
+		{{ if reflect.IsImageResourceProcessable . }}
+			{{ $thumb := .Fill "800x534" }}
+			<a href="{{ .RelPermalink }}" target="_blank"><img src="{{ $thumb.RelPermalink }}" alt="" loading="lazy"></a>
+		{{ end }}
+	{{ end }}
+</div>
 {{ end }}

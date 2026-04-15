@@ -1,54 +1,244 @@
 @import "components/reset.css";
 
+/* ── Tokens ── */
 :root {
-  color-scheme: light dark;
-  --bg: #ffffff;
-  --fg: #111111;
-  --muted: #666666;
-  --card: #f4f4f4;
+  color-scheme: dark light;
+
+  /* Dark mode as default (photography-first) */
+  --bg: oklch(0.13 0.01 260);
+  --bg-surface: oklch(0.17 0.012 260);
+  --fg: oklch(0.93 0.005 260);
+  --fg-muted: oklch(0.62 0.01 260);
+  --fg-dim: oklch(0.45 0.008 260);
+  --accent: oklch(0.78 0.04 80);
+  --border: oklch(0.25 0.008 260);
+
+  /* Spacing scale (4pt base) */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 48px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+
+  /* Type scale */
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-lg: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  --text-xl: clamp(1.75rem, 1.25rem + 2vw, 2.75rem);
 }
-@media (prefers-color-scheme: dark) {
+
+@media (prefers-color-scheme: light) {
   :root {
-    --bg: #0f1115;
-    --fg: #f5f7fa;
-    --muted: #aab2bf;
-    --card: #1a1f29;
+    --bg: oklch(0.97 0.005 80);
+    --bg-surface: oklch(0.94 0.006 80);
+    --fg: oklch(0.15 0.01 260);
+    --fg-muted: oklch(0.45 0.01 260);
+    --fg-dim: oklch(0.6 0.008 260);
+    --accent: oklch(0.45 0.05 80);
+    --border: oklch(0.85 0.006 80);
   }
 }
+
+/* ── Base ── */
 * {
   box-sizing: border-box;
 }
+
 body {
   margin: 0;
-  font-family:
-    system-ui,
-    -apple-system,
-    Segoe UI,
-    Roboto,
-    Arial,
-    sans-serif;
+  font-family: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  font-size: var(--text-base);
   background: var(--bg);
   color: var(--fg);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
-header,
-footer {
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid #0002;
-}
-footer {
-  border-top: 1px solid #0002;
-  border-bottom: 0;
-}
-main {
-  max-width: 900px;
+
+/* ── Header ── */
+header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: var(--space-xl) clamp(var(--space-lg), 4vw, var(--space-2xl));
+  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
-  padding: 1.25rem;
 }
-.card {
-  background: var(--card);
-  border-radius: 10px;
-  padding: 1rem;
+
+header .site-title {
+  font-family: "Bodoni Moda", "Georgia", serif;
+  font-size: var(--text-base);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
 }
-.muted {
-  color: var(--muted);
+
+header nav ul {
+  display: flex;
+  gap: var(--space-lg);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+header nav a {
+  font-size: var(--text-sm);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+header nav a:hover {
+  color: var(--fg);
+}
+
+/* ── Main ── */
+main {
+  flex: 1;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 clamp(var(--space-lg), 4vw, var(--space-2xl));
+  padding-bottom: var(--space-xl);
+}
+
+/* ── Gallery header ── */
+.gallery-header {
+  padding-top: clamp(var(--space-xl), 6vw, var(--space-3xl));
+  margin-bottom: clamp(var(--space-xl), 5vw, var(--space-2xl));
+}
+
+.gallery-header h1 {
+  font-family: "Bodoni Moda", "Georgia", serif;
+  font-size: var(--text-xl);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.gallery-header .photo-count {
+  font-size: var(--text-sm);
+  color: var(--fg-dim);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: var(--space-sm);
+}
+
+/* ── Gallery grid ── */
+.gallery {
+  columns: 2;
+  column-gap: var(--space-lg);
+}
+
+.gallery a {
+  display: block;
+  margin-bottom: var(--space-lg);
+  break-inside: avoid;
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: brightness(0.92) contrast(1.02);
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+.gallery a:hover img {
+  filter: brightness(1) contrast(1);
+  transform: scale(1.015);
+}
+
+.gallery a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: oklch(0 0 0 / 0.08);
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.gallery a:hover::after {
+  opacity: 0;
+}
+
+/* Responsive columns */
+@media (max-width: 640px) {
+  .gallery {
+    columns: 1;
+  }
+  header {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+}
+
+/* ── Staggered entrance ── */
+.gallery a {
+  opacity: 0;
+  animation: fadeUp 0.5s ease forwards;
+}
+
+.gallery a:nth-child(1) { animation-delay: 0.05s; }
+.gallery a:nth-child(2) { animation-delay: 0.1s; }
+.gallery a:nth-child(3) { animation-delay: 0.15s; }
+.gallery a:nth-child(4) { animation-delay: 0.2s; }
+.gallery a:nth-child(5) { animation-delay: 0.25s; }
+.gallery a:nth-child(6) { animation-delay: 0.3s; }
+.gallery a:nth-child(7) { animation-delay: 0.35s; }
+.gallery a:nth-child(8) { animation-delay: 0.4s; }
+.gallery a:nth-child(9) { animation-delay: 0.45s; }
+.gallery a:nth-child(10) { animation-delay: 0.5s; }
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery a {
+    opacity: 1;
+    animation: none;
+  }
+  .gallery img {
+    transition: none;
+  }
+}
+
+/* ── Footer ── */
+footer {
+  padding: var(--space-xl) clamp(var(--space-lg), 4vw, var(--space-2xl));
+  padding-top: var(--space-2xl);
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+footer small {
+  font-size: var(--text-sm);
+  color: var(--fg-dim);
+  letter-spacing: 0.03em;
+}
+
+/* ── Separator line ── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
 }

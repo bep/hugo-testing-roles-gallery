@@ -1,5 +1,7 @@
 baseURL = "https://example.com/"
-title   = "My Hugo Site"
+title   = "Gallery with members section"
+
+defaultContentRole = "guest"
 
 # Only home for now, remove what you want.
 disableKinds = [
@@ -12,3 +14,24 @@ disableKinds = [
     "section",
     "sitemap",
 ]
+
+[roles]
+    [roles.guest]
+        weight = 100
+    [roles.member]
+        weight = 200
+
+[module]
+    [[module.mounts]]
+        source = 'content/member'
+        target = 'content'
+        [module.mounts.sites.matrix]
+            roles = "member"
+    [[module.mounts]]
+        source = 'content/guest'
+        target = 'content'
+        [module.mounts.sites.matrix]
+            # This allows the member role to also see the guest content.
+            # But note the order of the mounts here, this will be fallback content for members.
+            roles = "*"
+

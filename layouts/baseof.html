@@ -2,8 +2,11 @@
 <html lang="{{ site.Language.Locale }}" dir="{{ or site.Language.Direction `ltr` }}">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
 		{{- with resources.Get "css/main.css" }}
 			{{- $opts := dict
 				"minify" (cond hugo.IsDevelopment false true)
@@ -37,13 +40,25 @@
 	</head>
 	<body>
 		<header>
-			<strong>{{ site.Title }}</strong>
+			<span class="site-title">{{ site.Title }}</span>
+			<nav>
+				<ul>
+					{{ range .Rotate "role" }}
+						{{ if eq . $ }}
+							{{ continue }}
+						{{ end }}
+						<li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+					{{ end }}
+				</ul>
+			</nav>
 		</header>
+		<hr class="divider">
 		<main>
 			{{ block "main" . }}{{ end }}
 		</main>
+		<hr class="divider">
 		<footer>
-			<small class="muted">Copyright {{ now.Year }}. All rights reserved.</small>
+			<small>Copyright {{ now.Year }}. All rights reserved.</small>
 		</footer>
 	</body>
 </html>
