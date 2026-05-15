@@ -1,13 +1,21 @@
 {{ define "main" }}
 <div class="gallery-header">
-	<h1>{{ .Title }}</h1>
-	{{ $images := .Resources.ByType "image" }}
-	<p class="photo-count">{{ len $images }} photographs</p>
+	{{ $p := "" }}
+	{{ if .IsHome }}
+		{{ $p = index .Sections 0 }}
+	{{ else }}
+		{{ $p = . }}
+	{{ end }}
+	<h1>{{ $p.Title }}</h1>
+	{{ $images := $p.Resources.ByType "image" }}
+	{{ with $images }}
+		<p class="photo-count">{{ len . }} photographs</p>
+	{{ end }}
 </div>
 <div class="gallery">
 	{{ range $images }}
 		{{ if reflect.IsImageResourceProcessable . }}
-			{{ $thumb := .Fill "800x534" }}
+			{{ $thumb := .Fill "800x534 Bottom" }}
 			<a href="{{ .RelPermalink }}" target="_blank"><img src="{{ $thumb.RelPermalink }}" alt="" loading="lazy"></a>
 		{{ end }}
 	{{ end }}

@@ -48,7 +48,7 @@
 
 body {
   margin: 0;
-  font-family: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  font-family: system-ui, -apple-system, sans-serif;
   font-size: var(--text-base);
   background: var(--bg);
   color: var(--fg);
@@ -62,18 +62,13 @@ header {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  padding: var(--space-xl) clamp(var(--space-lg), 4vw, var(--space-2xl));
-  max-width: 1280px;
+  padding: var(--space-md) clamp(var(--space-md), 2vw, var(--space-lg));
   width: 100%;
-  margin: 0 auto;
 }
 
 header .site-title {
-  font-family: "Bodoni Moda", "Georgia", serif;
   font-size: var(--text-base);
   font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--fg-muted);
 }
 
@@ -101,47 +96,41 @@ header nav a:hover {
 /* ── Main ── */
 main {
   flex: 1;
-  max-width: 1280px;
   width: 100%;
-  margin: 0 auto;
-  padding: 0 clamp(var(--space-lg), 4vw, var(--space-2xl));
-  padding-bottom: var(--space-xl);
+  padding: 0 clamp(var(--space-md), 2vw, var(--space-lg));
+  padding-bottom: var(--space-md);
 }
 
 /* ── Gallery header ── */
 .gallery-header {
-  padding-top: clamp(var(--space-xl), 6vw, var(--space-3xl));
-  margin-bottom: clamp(var(--space-xl), 5vw, var(--space-2xl));
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
 }
 
 .gallery-header h1 {
-  font-family: "Bodoni Moda", "Georgia", serif;
-  font-size: var(--text-xl);
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
+  font-size: var(--text-base);
+  font-weight: 500;
+  letter-spacing: 0.02em;
   margin: 0;
 }
 
 .gallery-header .photo-count {
   font-size: var(--text-sm);
   color: var(--fg-dim);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  margin-top: var(--space-sm);
+  margin: 0;
 }
 
 /* ── Gallery grid ── */
 .gallery {
-  columns: 2;
-  column-gap: var(--space-lg);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+  gap: var(--space-xs);
 }
 
 .gallery a {
   display: block;
-  margin-bottom: var(--space-lg);
-  break-inside: avoid;
   position: relative;
   overflow: hidden;
 }
@@ -150,95 +139,24 @@ main {
   width: 100%;
   height: auto;
   display: block;
-  filter: brightness(0.92) contrast(1.02);
-  transition: filter 0.4s ease, transform 0.4s ease;
-}
-
-.gallery a:hover img {
-  filter: brightness(1) contrast(1);
-  transform: scale(1.015);
-}
-
-.gallery a::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: oklch(0 0 0 / 0.08);
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-
-.gallery a:hover::after {
-  opacity: 0;
 }
 
 /* Responsive columns */
 @media (max-width: 640px) {
-  .gallery {
-    columns: 1;
-  }
   header {
     flex-direction: column;
-    gap: var(--space-sm);
-  }
-}
-
-/* ── Staggered entrance ── */
-.gallery a {
-  opacity: 0;
-  animation: fadeUp 0.5s ease forwards;
-}
-
-.gallery a:nth-child(1) { animation-delay: 0.05s; }
-.gallery a:nth-child(2) { animation-delay: 0.1s; }
-.gallery a:nth-child(3) { animation-delay: 0.15s; }
-.gallery a:nth-child(4) { animation-delay: 0.2s; }
-.gallery a:nth-child(5) { animation-delay: 0.25s; }
-.gallery a:nth-child(6) { animation-delay: 0.3s; }
-.gallery a:nth-child(7) { animation-delay: 0.35s; }
-.gallery a:nth-child(8) { animation-delay: 0.4s; }
-.gallery a:nth-child(9) { animation-delay: 0.45s; }
-.gallery a:nth-child(10) { animation-delay: 0.5s; }
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .gallery a {
-    opacity: 1;
-    animation: none;
-  }
-  .gallery img {
-    transition: none;
+    align-items: flex-start;
+    gap: var(--space-xs);
   }
 }
 
 /* ── Footer ── */
 footer {
-  padding: var(--space-xl) clamp(var(--space-lg), 4vw, var(--space-2xl));
-  padding-top: var(--space-2xl);
-  max-width: 1280px;
+  padding: var(--space-md) clamp(var(--space-md), 2vw, var(--space-lg));
   width: 100%;
-  margin: 0 auto;
 }
 
 footer small {
   font-size: var(--text-sm);
   color: var(--fg-dim);
-  letter-spacing: 0.03em;
-}
-
-/* ── Separator line ── */
-.divider {
-  border: none;
-  border-top: 1px solid var(--border);
-  margin: 0;
 }
